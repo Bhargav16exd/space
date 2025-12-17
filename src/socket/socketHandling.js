@@ -25,15 +25,15 @@ export const latest = async (req,res,next) => {
 
         //Procceed further only for spaces which are archived
 
-        const uniqueSpace = await Space.findOne({name:space , selfDestruction:false})
-
+        const uniqueSpace = await Space.findOne({name:space})
+ 
         if(!uniqueSpace){
             return res.json( new  SuccessResponse(400, "No Such Space Exist"))
         }
 
         const responseBoilerPlate = {
             content : uniqueSpace.content,
-            count : ""
+            count : spaceData[space].count
         }
 
 
@@ -146,11 +146,9 @@ export default async function ListenToSocket(){
                NOTE : optimizaiton required
             */
 
-            if(parseContent(content)[0]?.data){
+            if(parseContent(content)[0]){
                 spaceData[space].content = parseContent(content)
-            }
-
-            
+            }            
 
         })
        
